@@ -23,26 +23,6 @@ export default class SelectionInfoPanel extends Panel {
   identifier = "selection-info";
   iconPath = "/images/info.svg";
 
-  static styles = `
-    .selection-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      width: 100%;
-      white-space: normal;
-    }
-
-    .selection-info-section {
-      padding: 1em;
-    }
-
-    .selection-info-section--scrollable {
-      flex: 1;
-      overflow: hidden auto;
-    }
-  `;
-
   constructor(editorController) {
     super(editorController);
     this.throttledUpdate = throttleCalls((senderID) => this.update(senderID), 100);
@@ -86,14 +66,14 @@ export default class SelectionInfoPanel extends Panel {
     this.infoForm = new Form();
     return html.div(
       {
-        class: "selection-info",
+        class: "panel",
       },
       [
         html.div(
-          { class: "selection-info-section selection-info-section--scrollable" },
+          { class: "panel__section panel__section--flex panel__section--scrollable" },
           [this.infoForm]
         ),
-        html.div({ class: "selection-info-section" }, this.getBehaviorElements()),
+        html.div({ class: "panel__section" }, this.getBehaviorElements()),
       ]
     );
   }
