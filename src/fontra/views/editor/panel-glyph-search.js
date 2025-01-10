@@ -1,5 +1,4 @@
 import Panel from "./panel.js";
-import * as html from "/core/html-utils.js";
 
 export default class GlyphSearchPanel extends Panel {
   identifier = "glyph-search";
@@ -12,9 +11,19 @@ export default class GlyphSearchPanel extends Panel {
     }
   `;
 
+  get templateHTML() {
+    return `
+      <div class="panel">
+        <div class="panel__section panel__section--flex glyph-search-section">
+          <glyph-search-list id="glyph-search-list" />
+        </div>
+      </div>
+    `;
+  }
+
   constructor(editorController) {
     super(editorController);
-    this.glyphSearch = this.contentElement.querySelector("#glyph-search-list");
+    this.glyphSearch = this.shadowRoot.querySelector("#glyph-search-list");
     this.glyphSearch.addEventListener("selectedGlyphNameChanged", (event) =>
       this.glyphNameChangedCallback(event.detail)
     );
@@ -53,26 +62,6 @@ export default class GlyphSearchPanel extends Panel {
     }
 
     this.editorController.sceneSettings.selectedGlyph = selectedGlyphState;
-  }
-
-  getContentElement() {
-    return html.div(
-      {
-        class: "panel",
-      },
-      [
-        html.div(
-          {
-            class: "panel__section panel__section--flex glyph-search-section",
-          },
-          [
-            html.createDomElement("glyph-search-list", {
-              id: "glyph-search-list",
-            }),
-          ]
-        ),
-      ]
-    );
   }
 
   async toggle(on, focus) {

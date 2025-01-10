@@ -1,4 +1,4 @@
-import { SimpleElement } from "/core/html-utils.js";
+import { SimpleElement, createTemplate } from "/core/html-utils.js";
 
 export default class Panel extends SimpleElement {
   panelStyles = `
@@ -19,12 +19,22 @@ export default class Panel extends SimpleElement {
     }
   `;
 
+  get templateHTML() {}
+
   constructor(editorController) {
     super();
     this.editorController = editorController;
     this._appendStyle(this.panelStyles);
     this.contentElement = this.getContentElement();
-    this.shadowRoot.appendChild(this.contentElement);
+    if (this.templateHTML) {
+      this.shadowRoot.appendChild(this.getTemplate().content);
+    } else {
+      this.shadowRoot.appendChild(this.contentElement);
+    }
+  }
+
+  getTemplate() {
+    return createTemplate(this.templateHTML);
   }
 
   getContentElement() {}

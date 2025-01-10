@@ -131,6 +131,10 @@ export function createDomElement(tagName, attributes, children) {
   return element;
 }
 
+export function createTemplate(innerHTML) {
+  return createDomElement("template", { innerHTML });
+}
+
 export function htmlToElement(html) {
   var template = document.createElement("template");
   html = html.trim();
